@@ -13,6 +13,7 @@ void liberar_Memoria(int*** m,int*** jugador1,int*** jugador2);
 void cordenadas(int*** m);
 void ataqueNormal (int*** m,int x , int y , int z );
 void ataqueExpansive(int*** m,int x , int y , int z );
+void ganador(int*** m);
 
 int menu();
 
@@ -29,16 +30,18 @@ int main(int argc, char const *argv[]){
         matriz (jugador2);
 	llenado (jugador2);
 	jugador (m);
+	jugador (jugador1);
+	jugador (jugador2);
         cordenadas(m);
-        liberar_Memoria(m,jugador1,jugador2);
+ 
 //////////////////////////
-	bool ganador=false;
 
 	int menu1;
 	int x,y,z;
-
+	int jug = 1;
 	while ( (menu1 = menu()) != 6){
-
+           
+	   while (true){
 		if (menu1 == 1){
 			cout<<"Ingrese coordenadas"<<endl;
 			cout<<"x: "<<endl;
@@ -47,7 +50,26 @@ int main(int argc, char const *argv[]){
 			cin>>y;
 			cout<<"z: "<<endl;
 			cin>>z;
-			//AtaqueNormal(x,y,z);
+			if (jug==1){
+			    cout << "Jugador 1 :)" <<endl ;
+			    cordenadas(jugador1);
+			    jug =2;
+				ataqueNormal (jugador1,x ,  y , z );
+				ganador(jugador1);
+				break;
+				
+                    	    
+			}
+			if (jug==2){
+			    cout << "Jugador 2 :)" <<endl ;
+			    cordenadas(jugador2);
+			    jug =1;
+				ataqueNormal (jugador2,x ,  y , z );
+				//ganador (jugador2);
+				break;
+                                
+			}
+			
 		}else{
 			if (menu1 == 2){
 				cout<<"Ingrese coordenadas"<<endl;
@@ -93,10 +115,10 @@ int main(int argc, char const *argv[]){
 				}
 			}
 		}
-
+	   }// fin del jugador
 	} // fin while menu
 
-
+               liberar_Memoria(m,jugador1,jugador2);
 	return 0;
 }
 
@@ -213,6 +235,8 @@ void ataqueNormal (int*** m,int x , int y , int z ){
 	   m[x][y][z]=0;
 	   cout << "Ataque EXITOSO :)"<<endl;
 		  
+	}else{
+	cout << "No Destruistes nada :("<<endl;
 	}
 
 }
@@ -230,5 +254,27 @@ void ataqueExpansive(int*** m,int x , int y , int z ){
 	   }
 	}
        
-   }
+   }else {
+    cout << "No destruistes nada :("<<endl;
+  }
+}
+
+void ganador (int*** m){
+int o = 0;
+for (int i = 0; i < 12;i++){
+          for(int j = 0; j < 12;j++){
+           
+	      for(int k = 0; k < 12;k++){
+	        if (m[i][j][k]==1){
+                o=1;
+		break;
+		}
+	        }
+	   }
+	}
+	
+	if (o==0){
+	cout <<"Ganastes :) ya el otro contricante no tiene submarinos :)"<<endl;
+	}
+
 }
