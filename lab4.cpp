@@ -20,18 +20,17 @@ int main(int argc, char const *argv[]){
 
 	int*** m = new int**[12];
 	int*** jugador1 = new int**[12];
-        int*** jugador2 = new int**[12];
-/////////////////////////
-        matriz (m);
-	llenado (m);
-        matriz (jugador1);
-	llenado (jugador1);
-        matriz (jugador2);
-	llenado (jugador2);
+    int*** jugador2 = new int**[12];
+
+    matriz (m);
+    llenado (m);
+    matriz (jugador1);
+    llenado (jugador1);
+    matriz (jugador2);
+    llenado (jugador2);
 	jugador (m);
-        cordenadas(m);
-        liberar_Memoria(m,jugador1,jugador2);
-//////////////////////////
+    cordenadas(m);
+
 	bool ganador=false;
 
 	int menu1;
@@ -96,6 +95,7 @@ int main(int argc, char const *argv[]){
 
 	} // fin while menu
 
+	liberar_Memoria(m,jugador1,jugador2);
 
 	return 0;
 }
@@ -107,7 +107,7 @@ int menu(){
 		 << "3. Ataque wave en XZ"<<endl
 		 << "4. Ataque wave en YZ"<<endl
 		 << "5. Ataque Expansive"<<endl
-	         << "6. Salir" << endl;
+	     << "6. Salir" << endl;
 	    // cout<<"WAVE DISPONIBLES: "<<wave<<endl;
 	    // cout<<"EXPANSIVE DISPONIBLES: "<<expansiv<<endl;
 	int opcion;
@@ -121,114 +121,95 @@ int menu(){
 }
 
 void matriz (int*** m){
-
 	for (int i =0; i<12 ;i++){
 		m[i]=new int*[12];
-        }
-	
-	for(int i =0 ; i<12 ; i++){
-	      for(int j = 0 ;j<12;j++){
-	      	m[i][j]= new int [12];
-	      }
 	}
-}
+	for(int i =0 ; i<12 ; i++){
+		for(int j = 0 ;j<12;j++){
+			m[i][j]= new int [12];
+		}
+	}
+} // fin void matriz
 
 void llenado (int*** m){
 	for(int i =0; i<12;i++){
-	    for(int j =0 ;j<12 ;j++){
-		for(int k = 0 ; k<12 ;k++){
-		m[i][j][k]=0;		
-		//cout << m[i][j][k];
+		for(int j =0 ;j<12 ;j++){
+			for(int k = 0 ; k<12 ;k++){
+				m[i][j][k]=0;
+				//cout << m[i][j][k];
+			}
 		}
-	    }
 	}	
-}
+} // fin void llenado
  
 void jugador (int*** m){
-srand(time(NULL));
-double magic=(rand()%10)+1;
-int y =0;
+	srand(time(NULL));
+	double magic=(rand()%10)+1;
+	int y =0;
 
 	for(int i =0; i<12;i++){
-	    for(int j =0 ;j<12 ;j++){
-		for(int k = 0 ; k<12 ;k++){
-				
-		
-                   double magic=(rand()%50)+1;
-		   if (y <15){
-                     if(magic == 20){
-                        m[i][j][k]=1;
-                        y++;
-                     }
-		   }
-		 cout << m[i][j][k];
+		for(int j =0 ;j<12 ;j++){
+			for(int k = 0 ; k<12 ;k++){
+				double magic=(rand()%50)+1; // random
+				if (y <15){
+					if(magic == 20){
+						m[i][j][k]=1;
+						y++;
+					}
+				}
+				//cout << m[i][j][k];
+			}
 		}
-	    }
 	}
-
-}
+} // fin void jugador
 
 void liberar_Memoria(int*** m,int*** jugador1,int*** jugador2){
-  
- 	for(int i =0 ; i <12 ;i++){
-		for(int j =0; j<12 ; j++){
-		   delete [] m[i][j];
-                   delete [] jugador1[i][j];
-		   delete [] jugador2[i][j];
-		}
-		
-	}
-		
 	for(int i =0 ; i <12 ;i++){
-	   delete[] m[i];
-	   delete[] jugador1[i];
-	   delete[] jugador2[i];
+		for(int j =0; j<12 ; j++){
+			delete [] m[i][j];
+			delete [] jugador1[i][j];
+			delete [] jugador2[i][j];
+		}
 	}
 
-delete[] m;
-delete[] jugador1;
-delete[] jugador2;
-}
+	for(int i =0 ; i <12 ;i++){
+		delete[] m[i];
+		delete[] jugador1[i];
+		delete[] jugador2[i];
+	}
+	delete[] m;
+	delete[] jugador1;
+	delete[] jugador2;
+} // fin void liberar memoria
 
 void cordenadas(int*** m){
-
-for(int i =0; i<12;i++){
-	    for(int j =0 ;j<12 ;j++){
-		for(int k = 0 ; k<12 ;k++){
-				
-		if(m[i][j][k]==1){
-                   cout << "x= " <<i << " y= "<<j<<" z= " << k<< endl;
-                 
-                 }
-
+	for(int i =0; i<12;i++){
+		for(int j =0 ;j<12 ;j++){
+			for(int k = 0 ; k<12 ;k++){
+				if(m[i][j][k]==1){
+					cout << "x= " <<i << " y= "<<j<<" z= " << k<< endl;
+				}
+			}
 		}
-	    }
 	}
-
-}
+} // fin void coordenadas
 
 void ataqueNormal (int*** m,int x , int y , int z ){
-	
 	if(m[x][y][z]==1){
-	   m[x][y][z]=0;
-	   cout << "Ataque EXITOSO :)"<<endl;
-		  
+		m[x][y][z]=0;
+		cout << "Ataque EXITOSO :)"<<endl;
 	}
-
-}
+} // fin ataque normal
 
 void ataqueExpansive(int*** m,int x , int y , int z ){
-   if (((x != 1)&&(y!=1)&&(z!=1))||((x != 13)&&(y!=13)&&(z!=13))){ 
-      for (int i = x-1; i <x+2;i++){
-          for(int j = y-1; j <y+2;j++){
-           
-	      for(int k = z-1; k <z+2;k++){
-	         m[x][y][z]=0;
-                 cout << "Ataque EXITOSO :)"<<endl;
-
-	      }
-	   }
+	if (((x != 1)&&(y!=1)&&(z!=1))||((x != 13)&&(y!=13)&&(z!=13))){
+		for (int i = x-1; i <x+2;i++){
+			for(int j = y-1; j <y+2;j++){
+				for(int k = z-1; k <z+2;k++){
+					m[x][y][z]=0;
+					cout << "Ataque EXITOSO :)"<<endl;
+				}
+			}
+		}
 	}
-       
-   }
-}
+} // fin ataque expansive
