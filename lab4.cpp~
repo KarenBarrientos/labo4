@@ -21,17 +21,7 @@ int main(int argc, char const *argv[]){
 	int*** m = new int**[12];
 	int*** jugador1 = new int**[12];
         int*** jugador2 = new int**[12];
-/////////////////////////
-        matriz (m);
-	llenado (m);
-        matriz (jugador1);
-	llenado (jugador1);
-        matriz (jugador2);
-	llenado (jugador2);
-	jugador (m);
-        cordenadas(m);
-        liberar_Memoria(m,jugador1,jugador2);
-//////////////////////////
+
 	bool ganador=false;
 
 	int menu1;
