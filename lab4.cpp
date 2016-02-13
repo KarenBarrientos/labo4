@@ -21,24 +21,23 @@ int main(int argc, char const *argv[]){
 
 	int*** m = new int**[12];
 	int*** jugador1 = new int**[12];
-        int*** jugador2 = new int**[12];
-/////////////////////////
-        matriz (m);
+    int*** jugador2 = new int**[12];
+    matriz (m);
 	llenado (m);
-        matriz (jugador1);
+    matriz (jugador1);
 	llenado (jugador1);
-        matriz (jugador2);
+    matriz (jugador2);
 	llenado (jugador2);
 	jugador (m);
 	jugador (jugador1);
 	jugador (jugador2);
-        cordenadas(m);
- 
-//////////////////////////
+    cordenadas(m);
 
 	int menu1;
 	int x,y,z;
 	int jug = 1;
+	int ju = 1;
+	int ju2 =1;
 	while ( (menu1 = menu()) != 6){
            
 	   while (true){
@@ -65,7 +64,7 @@ int main(int argc, char const *argv[]){
 			    cordenadas(jugador2);
 			    jug =1;
 				ataqueNormal (jugador2,x ,  y , z );
-				//ganador (jugador2);
+				ganador(jugador2);
 				break;
                                 
 			}
@@ -110,15 +109,39 @@ int main(int argc, char const *argv[]){
 							cout<<"z: "<<endl;
 							cin>>z;
 							//AtaqueExpensive();
+							if((ju<=3)||(ju2<=3)){
+								if (jug==1){
+			  				  	cout << "Jugador 1 :)" <<endl ;
+			    				cordenadas(jugador1);
+			   				 	jug =2;
+								ataqueExpansive (jugador1,x ,  y , z );
+								ganador(jugador1);
+								ju++;
+								break;
+				
+                    	    
+								}
+								if (jug==2){
+			   					cout << "Jugador 2 :)" <<endl ;
+			    				cordenadas(jugador2);
+			   					jug =1;
+								ataqueExpansive (jugador2,x ,  y , z );
+								ganador(jugador2);
+								ju2++;
+								break;
+                                }
+			}
+
+
 						}
 					}
 				}
 			}
 		}
-	   }// fin del jugador
-	} // fin while menu
+	}// fin del jugador
+} // fin while menu
 
-               liberar_Memoria(m,jugador1,jugador2);
+	liberar_Memoria(m,jugador1,jugador2);
 	return 0;
 }
 
@@ -183,7 +206,7 @@ int y =0;
                         y++;
                      }
 		   }
-		 cout << m[i][j][k];
+		// cout << m[i][j][k];
 		}
 	    }
 	}
@@ -213,68 +236,55 @@ delete[] jugador2;
 }
 
 void cordenadas(int*** m){
-
-for(int i =0; i<12;i++){
+	for(int i =0; i<12;i++){
 	    for(int j =0 ;j<12 ;j++){
-		for(int k = 0 ; k<12 ;k++){
-				
-		if(m[i][j][k]==1){
-                   cout << "x= " <<i << " y= "<<j<<" z= " << k<< endl;
-                 
-                 }
-
-		}
+	    	for(int k = 0 ; k<12 ;k++){
+	    		if(m[i][j][k]==1){
+	    			cout << "x= " <<i << " y= "<<j<<" z= " << k<< endl;
+	    		}
+	    	}
 	    }
 	}
-
 }
 
 void ataqueNormal (int*** m,int x , int y , int z ){
-	
 	if(m[x][y][z]==1){
-	   m[x][y][z]=0;
-	   cout << "Ataque EXITOSO :)"<<endl;
-		  
+		m[x][y][z]=0;
+		cout << "Ataque EXITOSO :)"<<endl;
 	}else{
-	cout << "No Destruistes nada :("<<endl;
+		cout << "No Destruistes nada :("<<endl;
 	}
-
 }
 
 void ataqueExpansive(int*** m,int x , int y , int z ){
    if (((x != 1)&&(y!=1)&&(z!=1))||((x != 13)&&(y!=13)&&(z!=13))){ 
       for (int i = x-1; i <x+2;i++){
           for(int j = y-1; j <y+2;j++){
-           
-	      for(int k = z-1; k <z+2;k++){
-	         m[x][y][z]=0;
-                 cout << "Ataque EXITOSO :)"<<endl;
-
-	      }
-	   }
+          	for(int k = z-1; k <z+2;k++){
+          		m[x][y][z]=0;
+          		cout << "Ataque EXITOSO :)"<<endl;
+			}
+		}
 	}
-       
-   }else {
-    cout << "No destruistes nada :("<<endl;
+	}else {
+		cout << "No destruistes nada :("<<endl;
   }
 }
 
 void ganador (int*** m){
-int o = 0;
-for (int i = 0; i < 12;i++){
-          for(int j = 0; j < 12;j++){
-           
-	      for(int k = 0; k < 12;k++){
-	        if (m[i][j][k]==1){
+	int o = 0;
+	for (int i = 0; i < 12;i++){
+		for(int j = 0; j < 12;j++){
+			for(int k = 0; k < 12;k++){
+				if (m[i][j][k]==1){
                 o=1;
-		break;
-		}
-	        }
-	   }
-	}
-	
-	if (o==0){
+                break;
+            }
+        }
+    }
+}
+if (o==0){
 	cout <<"Ganastes :) ya el otro contricante no tiene submarinos :)"<<endl;
-	}
+}
 
 }
